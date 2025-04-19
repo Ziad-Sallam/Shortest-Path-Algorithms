@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -17,6 +18,7 @@ public class ShortestPathAlgorithmsTest {
     ArrayList<ArrayList<int[]>> adjacencyList = new ArrayList<>();
     private static final String LOG_FILE = "test_results.txt";
     private long testStartTime;
+    
 
 
     @Rule
@@ -53,6 +55,14 @@ public class ShortestPathAlgorithmsTest {
         }
     };
 
+    @Before
+    public void setup() {
+        // Initialize the adjacency list and matrix for testing
+        for (int i = 0; i < 0; i++) {
+            adjacencyList.add(new ArrayList<>());
+        }
+    }
+
     void setup(int nodeNumber) {
         // Initialize the adjacency list and matrix for testing
         for (int i = 0; i < nodeNumber; i++) {
@@ -68,6 +78,30 @@ public class ShortestPathAlgorithmsTest {
     }
 
     // normal test case
+
+    @Test
+    public void floydWarshallGraphWith3Nodes() {
+        setup(3);
+        addEdge(0, 1, 1);
+        addEdge(1, 2, 2);
+        addEdge(0, 2, 4);
+        addEdge(2, 0, 3);
+        FloydWarshall floydWarshall = new FloydWarshall(adjacencyList);
+        long startTime = System.currentTimeMillis();
+        floydWarshall.floydWarshall();
+        ArrayList<Integer> path = floydWarshall.getPath(0, 2);
+        long endTime = System.currentTimeMillis();
+
+        int[] expected = { 0, 1, 3 };
+        int[] expectedPath = { 0, 1, 2 };
+
+        assertArrayEquals(expected, floydWarshall.distanceMatrix[0]);
+
+        for (int i = 0; i < path.size(); i++) {
+            assert path.get(i) == expectedPath[i] : "floydWarshall's algorithm failed at node " + i;
+        }
+    }
+
 
 
     @Test
@@ -117,28 +151,7 @@ public class ShortestPathAlgorithmsTest {
         }
     }
 
-    @Test
-    public void floydWarshallGraphWith3Nodes() {
-        setup(3);
-        addEdge(0, 1, 1);
-        addEdge(1, 2, 2);
-        addEdge(0, 2, 4);
-        addEdge(2, 0, 3);
-        FloydWarshall floydWarshall = new FloydWarshall(adjacencyList);
-        long startTime = System.currentTimeMillis();
-        floydWarshall.floydWarshall();
-        ArrayList<Integer> path = floydWarshall.getPath(0, 2);
-        long endTime = System.currentTimeMillis();
 
-        int[] expected = { 0, 1, 3 };
-        int[] expectedPath = { 0, 1, 2 };
-
-        assertArrayEquals(expected, floydWarshall.distanceMatrix[0]);
-
-        for (int i = 0; i < path.size(); i++) {
-            assert path.get(i) == expectedPath[i] : "floydWarshall's algorithm failed at node " + i;
-        }
-    }
 
     @Test
     public void dijkstraGraphWith7Nodes() {
