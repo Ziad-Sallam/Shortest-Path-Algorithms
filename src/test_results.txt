@@ -1,0 +1,45 @@
+
+Starting test: dijkstraGraphWith3Nodes
+Test PASSED: dijkstraGraphWith3Nodes | Execution time: 22 ms
+
+Starting test: dijkstraGraphWith7Nodes
+Test FAILED: dijkstraGraphWith7Nodes | Execution time: 4 ms | Reason: Dijkstra's algorithm failed at node 1
+
+Starting test: dijkstraGraphWithNegativeCycle
+Test FAILED: dijkstraGraphWithNegativeCycle | Execution time: 3 ms | Reason: expected java.lang.IllegalStateException to be thrown, but nothing was thrown
+
+Starting test: dijkstraGraphWithNegativeEdges
+Test PASSED: dijkstraGraphWithNegativeEdges | Execution time: 4 ms
+
+Starting test: bellmanFordGraphWithNegativeEdges7Node
+Test PASSED: bellmanFordGraphWithNegativeEdges7Node | Execution time: 6 ms
+
+Starting test: bellmanFordGraphWith3Nodes
+Test PASSED: bellmanFordGraphWith3Nodes | Execution time: 1 ms
+
+Starting test: floydWarshallGraphWithNegativeEdges7Nodes
+Test PASSED: floydWarshallGraphWithNegativeEdges7Nodes | Execution time: 8 ms
+
+Starting test: bellmanFordGraphWith5Nodes
+Test PASSED: bellmanFordGraphWith5Nodes | Execution time: 1 ms
+
+Starting test: floydWarshallGraphWithNegativeCycle
+Test PASSED: floydWarshallGraphWithNegativeCycle | Execution time: 4 ms
+
+Starting test: floydWarshallGraphWithNegativeEdges
+Test PASSED: floydWarshallGraphWithNegativeEdges | Execution time: 4 ms
+
+Starting test: dijkstraGraphWithNegativeEdges7Node
+Test PASSED: dijkstraGraphWithNegativeEdges7Node | Execution time: 3 ms
+
+Starting test: floydWarshallGraphWith3Nodes
+Test PASSED: floydWarshallGraphWith3Nodes | Execution time: 2 ms
+
+Starting test: floydWarshallGraphWith5Nodes
+Test PASSED: floydWarshallGraphWith5Nodes | Execution time: 1 ms
+
+Starting test: bellmanFordGraphWithNegativeCycle
+Test PASSED: bellmanFordGraphWithNegativeCycle | Execution time: 18 ms
+
+Starting test: bellmanFordGraphWithNegativeEdges
+Test PASSED: bellmanFordGraphWithNegativeEdges | Execution time: 3 ms
