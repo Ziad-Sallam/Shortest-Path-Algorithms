@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Dijkstra {
@@ -37,8 +38,13 @@ public class Dijkstra {
 
         System.out.println("Iteration\tVisited\t\tDistance List");
         int iteration = 0;
+        final int MAX_ITERATIONS = 1000;
 
         while (!pq.isEmpty()) {
+            if (iteration >= MAX_ITERATIONS) {
+                System.out.println("Terminating 1000 iterations (possible negative cycle).");
+                break;
+            }
             int[] current = pq.poll();
             int node = current[0];
             int distance = current[1];
