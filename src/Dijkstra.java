@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class Dijkstra {
@@ -6,6 +5,7 @@ public class Dijkstra {
     ArrayList<ArrayList<int[]>> adjacencyList;
     ArrayList<Integer> distanceList;
     ArrayList<Integer> path;
+    boolean[] visited;  // Tracks visited nodes
     final int INF = Integer.MAX_VALUE / 2;  // To prevent overflow when adding weights
 
     Dijkstra(ArrayList<ArrayList<int[]>> adjacencyList) {
@@ -15,11 +15,13 @@ public class Dijkstra {
         this.adjacencyList = new ArrayList<>(adjacencyList);
         distanceList = new ArrayList<>();
         path = new ArrayList<>();
+        visited = new boolean[adjacencyList.size()];
 
-        // Initialize distances to infinity and paths to -1 (unreachable)
+        // Initialize distances to infinity, paths to -1 (unreachable), and visited to false
         for (int i = 0; i < adjacencyList.size(); i++) {
             distanceList.add(INF);
             path.add(-1);
+            visited[i] = false;
         }
     }
 
@@ -42,12 +44,16 @@ public class Dijkstra {
 
         while (!pq.isEmpty()) {
             if (iteration >= MAX_ITERATIONS) {
-                System.out.println("Terminating 1000 iterations (possible negative cycle).");
+                System.out.println("Terminating after 1000 iterations (possible negative cycle).");
                 break;
             }
             int[] current = pq.poll();
             int node = current[0];
             int distance = current[1];
+
+            // Skip if already visited
+            if (visited[node]) continue;
+            visited[node] = true;  // Mark as visited
 
             // Format the distance list for better readability
             String distanceStr = "[";
@@ -60,16 +66,14 @@ public class Dijkstra {
             System.out.printf("%d\t\t\t%c\t\t\t%s%n", iteration, (char) (node + 'A'), distanceStr);
             iteration++;
 
-            // Skip if we already found a better path
-            if (distance > distanceList.get(node)) continue;
-
             // Visit all neighbors
             for (int[] neighbor : adjacencyList.get(node)) {
                 int nextNode = neighbor[0];
                 int weight = neighbor[1];
                 int newDistance = distance + weight;
 
-                if (newDistance < distanceList.get(nextNode)) {
+                // Relax the edge if a shorter path is found
+                if (!visited[nextNode] && newDistance < distanceList.get(nextNode)) {
                     distanceList.set(nextNode, newDistance);
                     path.set(nextNode, node);  // Update the best path to nextNode
                     pq.add(new int[]{nextNode, newDistance});
