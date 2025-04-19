@@ -57,7 +57,14 @@ public class Main {
                 BellmanFord bellmanFord = new BellmanFord(adjacencyList);
                 System.out.println("Entre the source node: ");
                 int startNode = in.nextInt();
-                ArrayList<Integer> distances = bellmanFord.bellmanFord(startNode);
+                ArrayList<Integer> distances;
+                try {
+                   distances = bellmanFord.bellmanFord(startNode);
+                } catch (Exception e) {
+                    System.out.println("Graph contains a negative weight cycle");
+                    continue;
+                }
+
                 System.out.println("Shortest distances from node " + startNode + ":");
                 for (int i = 0; i < distances.size(); i++) {
                     System.out.println("Node " + i + ": " +
@@ -69,12 +76,29 @@ public class Main {
                 }
             } else if (choice == 3) {
                 FloydWarshall fw = new FloydWarshall(adjacencyList);
-                fw.floydWarshall();
+                try {
+                    fw.floydWarshall();
+                } catch (IllegalStateException e) {
+                    System.out.println("Graph contains a negative weight cycle");
+                    continue;
+                } 
 
                 for (int i = 0; i < N; i++) {
                     for (int j = 0; j < N; j++) {
                         System.out.println("from " + i + " to " + j + "\t" +fw.getPath(i, j));
                     }
+                }
+                for(int i = 0; i < N; i++) {
+                    for (int j = 0; j < N; j++) {
+                       System.out.print (fw.nextNode[i][j]+" ");
+                    }
+                    System.out.println();
+                }
+                for(int i = 0; i < N; i++) {
+                    for (int j = 0; j < N; j++) {
+                       System.out.print (fw.distanceMatrix[i][j]+" ");
+                    }
+                    System.out.println();
                 }
             }
         }

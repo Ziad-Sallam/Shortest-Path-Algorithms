@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class BellmanFord {
     ArrayList<ArrayList<int[]>> adjacencyList;
@@ -62,6 +60,8 @@ public class BellmanFord {
         // Check for negative weight cycles
         if (hasNegativeCycle()) {
             System.out.println("Warning: Graph contains a negative weight cycle");
+            throw new IllegalStateException("Graph contains a negative weight cycle");
+            
         }
 
         return new ArrayList<>(distanceList);
