@@ -18,7 +18,6 @@ public class ShortestPathAlgorithmsTest {
     private static final String LOG_FILE = "test_results.txt";
     private long testStartTime;
 
-
     @Rule
     public TestRule watcher = new TestWatcher() {
         @Override
@@ -64,11 +63,32 @@ public class ShortestPathAlgorithmsTest {
         // Add edge to adjacency list
         adjacencyList.get(from).add(new int[] { to, weight });
         // Add edge to adjacency matrix
-        
+
     }
 
     // normal test case
+    @Test
+    public void floydWarshallGraphWith3Nodes() {
+        setup(3);
+        addEdge(0, 1, 1);
+        addEdge(1, 2, 2);
+        addEdge(0, 2, 4);
+        addEdge(2, 0, 3);
+        FloydWarshall floydWarshall = new FloydWarshall(adjacencyList);
+        long startTime = System.currentTimeMillis();
+        floydWarshall.floydWarshall();
+        ArrayList<Integer> path = floydWarshall.getPath(0, 2);
+        long endTime = System.currentTimeMillis();
 
+        int[] expected = { 0, 1, 3 };
+        int[] expectedPath = { 0, 1, 2 };
+
+        assertArrayEquals(expected, floydWarshall.distanceMatrix[0]);
+
+        for (int i = 0; i < path.size(); i++) {
+            assert path.get(i) == expectedPath[i] : "floydWarshall's algorithm failed at node " + i;
+        }
+    }
 
     @Test
     public void dijkstraGraphWith3Nodes() {
@@ -117,28 +137,7 @@ public class ShortestPathAlgorithmsTest {
         }
     }
 
-    @Test
-    public void floydWarshallGraphWith3Nodes() {
-        setup(3);
-        addEdge(0, 1, 1);
-        addEdge(1, 2, 2);
-        addEdge(0, 2, 4);
-        addEdge(2, 0, 3);
-        FloydWarshall floydWarshall = new FloydWarshall(adjacencyList);
-        long startTime = System.currentTimeMillis();
-        floydWarshall.floydWarshall();
-        ArrayList<Integer> path = floydWarshall.getPath(0, 2);
-        long endTime = System.currentTimeMillis();
-
-        int[] expected = { 0, 1, 3 };
-        int[] expectedPath = { 0, 1, 2 };
-
-        assertArrayEquals(expected, floydWarshall.distanceMatrix[0]);
-
-        for (int i = 0; i < path.size(); i++) {
-            assert path.get(i) == expectedPath[i] : "floydWarshall's algorithm failed at node " + i;
-        }
-    }
+    
 
     @Test
     public void dijkstraGraphWith7Nodes() {
@@ -148,13 +147,13 @@ public class ShortestPathAlgorithmsTest {
         addEdge(0, 3, 12);
         addEdge(1, 4, 2);
         addEdge(2, 1, 3);
-        addEdge( 2, 4, -1);
-        addEdge( 2, 3, 2);
-        addEdge( 3, 0, -4);
-        addEdge( 3, 6, -7);
-        addEdge( 4, 5, 2);
-        addEdge( 5, 6, 2);
-        addEdge( 6, 4, 1);
+        addEdge(2, 4, -1);
+        addEdge(2, 3, 2);
+        addEdge(3, 0, -4);
+        addEdge(3, 6, -7);
+        addEdge(4, 5, 2);
+        addEdge(5, 6, 2);
+        addEdge(6, 4, 1);
         Dijkstra dijkstra = new Dijkstra(adjacencyList);
         long startTime = System.currentTimeMillis();
         ArrayList<Integer> dijkstraResult = dijkstra.dijkstra(0);
@@ -165,7 +164,8 @@ public class ShortestPathAlgorithmsTest {
         int[] expectedPath = { 0, 2, 3, 6, 4, 5 };
 
         for (int i = 0; i < path.size(); i++) {
-            assert path.get(i) == expectedPath[i] : "Dijkstra's algorithm failed at node " + i;
+            assert path.get(i) == expectedPath[i]
+                    : "Dijkstra's algorithm failed at node " + i + "as there negtive weigth ";
         }
         for (int i = 0; i < dijkstraResult.size(); i++) {
             assert dijkstraResult.get(i) == expectedDijkstra[i] : "Dijkstra's algorithm failed at node " + i;
@@ -376,21 +376,22 @@ public class ShortestPathAlgorithmsTest {
     // test case with negative cycle
     @Test
     public void dijkstraGraphWithNegativeCycle() {
-    setup(5);
-    addEdge(0, 1, 3);
-    addEdge(1, 2, -2);
-    addEdge(0, 2, 2);
-    addEdge(2, 0, -4);
-    addEdge(1, 3, 5);
-    addEdge(3, 4, -2);
-    Dijkstra dijkstra = new Dijkstra(adjacencyList);
+        setup(5);
+        addEdge(0, 1, 3);
+        addEdge(1, 2, -2);
+        addEdge(0, 2, 2);
+        addEdge(2, 0, -4);
+        addEdge(1, 3, 5);
+        addEdge(3, 4, -2);
+        Dijkstra dijkstra = new Dijkstra(adjacencyList);
 
-    IllegalStateException exception = assertThrows(IllegalStateException.class,
-    () -> {
-    dijkstra.dijkstra(0);;
-    });
-    assertEquals("Graph contains a negative weight cycle",
-    exception.getMessage());
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+                () -> {
+                    dijkstra.dijkstra(0);
+                    ;
+                });
+        assertEquals("Graph contains a negative weight cycle",
+                exception.getMessage());
 
     }// infinte loop occur
 
